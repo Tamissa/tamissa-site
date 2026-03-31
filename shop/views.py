@@ -29,7 +29,12 @@ def get_main_image_url(artwork):
     if main_img is None:
         main_img = artwork.images.first()
 
-    return main_img.image.url if main_img else None
+    if main_img:
+        filename = main_img.image.name.split("/")[-1]
+        base = filename.split("_")[0] + ".png"
+        return f"/static/gallery/images/{base}"
+
+    return None
 
 
 def release_expired_cart_holds(request):

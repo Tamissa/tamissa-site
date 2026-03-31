@@ -27,7 +27,9 @@ DEBUG = False
 
 ALLOWED_HOSTS = ["tam-issa.com",
     "www.tam-issa.com",
-    "tamissa-site.onrender.com",]
+    "tamissa-site.onrender.com",
+    "127.0.0.1",
+    "localhost",]
 
 
 # Application definition
