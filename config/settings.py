@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-o&lagpz*v1eq5uvwa&at%klxuis4j85$&dmd5bn2212jg9r@4w
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['tamissa-site.onrender.com']
 
 
 # Application definition
