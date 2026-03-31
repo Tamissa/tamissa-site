@@ -1,0 +1,1482 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tamissa — Handmade Art & Decor</title>
+  <link rel="icon" type="image/png" href="{% static 'gallery/images/Logo-clean.png' %}" />
+  <link href="https://fonts.googleapis.com/css2?family=Marck+Script&family=DM+Sans:wght@300;400&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --ivory: #F7F3EC;
+      --ivory-warm: #F1E9D9;
+      --charcoal: #272018;
+      --charcoal-mid: #403528;
+      --charcoal-soft: #7A6B5A;
+
+      --gold: #B07A28;
+      --gold-light: #C79A52;
+      --gold-pale: #E6D7C3;
+
+      --beige: #E6D7C3;
+      --dusty-nude: #D8BFA7;
+      --muted-blush: #E8CFC3;
+
+      --plum: #6B4A5A;
+      --vintage-blue: #7A8FA3;
+      --muted-teal: #6F8F8B;
+
+      --text-dark: #272018;
+      --text-mid: #52453A;
+      --text-soft: #8C7B6A;
+
+      --border: rgba(39, 32, 24, 0.10);
+      --border-gold: rgba(176, 122, 40, 0.28);
+
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--ivory);
+      color: var(--text-dark);
+      font-family: "DM Sans", sans-serif;
+      font-weight: 300;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 9999;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      background-size: 300px;
+    }
+
+    .site-header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 500;
+      height: 94px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 2rem;
+      background: rgba(248,243,236,0.94);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .logo-wrap {
+      display: flex;
+      align-items: center;
+      gap: 0.9rem;
+      text-decoration: none;
+      color: inherit;
+      min-width: 0;
+    }
+
+    .logo-circle {
+      width: 68px;
+      height: 68px;
+      border-radius: 50%;
+      border: 1px solid var(--border-gold);
+      background: var(--ivory-warm);
+      padding: 6px;
+      overflow: hidden;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 0 0 6px rgba(176,122,40,0.05);
+    }
+
+    .logo-circle img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+      border-radius: 50%;
+    }
+
+    .logo-sep {
+      width: 1px;
+      height: 36px;
+      background: var(--border-gold);
+      flex-shrink: 0;
+    }
+
+    .logo-text {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      min-width: 0;
+    }
+
+    .logo-name {
+  font-family: "Marck Script", cursive;
+  font-size: 2rem;
+  font-weight: 400;
+  letter-spacing: 0.04em;
+
+  color: #272018; /* solid charcoal — no transparency */
+  opacity: 1;     /* force full visibility */
+
+  line-height: 1;
+} 
+
+    .logo-tag {
+      font-size: 0.52rem;
+      letter-spacing: 0.42em;
+      text-transform: uppercase;
+      color: var(--gold);
+      white-space: nowrap;
+    }
+
+    .main-nav {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+    }
+
+    .main-nav a {
+      font-size: 0.68rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--text-mid);
+      text-decoration: none;
+      position: relative;
+      transition: color 0.3s;
+    }
+
+    .main-nav a::after {
+      content: "";
+      position: absolute;
+      bottom: -3px;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: var(--gold);
+      transform: scaleX(0);
+      transition: transform 0.3s;
+    }
+
+    .main-nav a:hover { color: var(--charcoal); }
+    .main-nav a:hover::after { transform: scaleX(1); }
+
+    .hero {
+  min-height: 75vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 100px 1.5rem 2rem;
+  position: relative;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 50% 34%, rgba(176,122,40,0.10) 0%, rgba(176,122,40,0.05) 18%, transparent 42%),
+    radial-gradient(circle at 50% 42%, rgba(39,32,24,0.05) 0%, transparent 55%),
+    linear-gradient(180deg, #f7f3ed 0%, #f6f1e8 45%, #f8f3ec 100%);
+}
+.hero::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 120px;
+  background: linear-gradient(to bottom, rgba(248,243,236,0), rgba(15,28,36,0.22));
+  pointer-events: none;
+}
+.hero {
+  min-height: 75vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 100px 1.5rem 2rem;
+  position: relative;
+  overflow: hidden;
+  background:
+    linear-gradient(
+      180deg,
+      #f3ede3 0%,
+      #f7f3ec 50%,
+      #efe5d6 100%
+    );
+}
+.hero::before,
+.hero::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  width: 46vw;
+  height: 46vw;
+  max-width: 620px;
+  max-height: 620px;
+  transform: translateY(-50%);
+  pointer-events: none;
+  z-index: 0;
+  background-repeat: no-repeat;
+  background-size: contain;
+  opacity: 0.08;
+}
+
+/* LEFT — tree */
+.hero::before {
+  left: 1%;
+  background-image: url("{% static 'gallery/images/Left_Hero.png' %}");
+  background-position: left center;
+}
+
+/* RIGHT — mandala */
+.hero::after {
+  right: 1%;
+  background-image: url("{% static 'gallery/images/Left_Hero.png' %}");
+  background-position: right center;
+}
+.hero::before,
+.hero::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  right: 0;
+  width: 220px;
+  height: 220px;
+  transform: translateY(-50%);
+  pointer-events: none;
+  z-index: 0;
+  background: rgba(111, 143, 139, 0.25);
+}
+
+.hero::before {
+  left: -10%;
+  background-image: url("{% static 'gallery/images/Left_Hero.png' %}");
+  background-position: left center;
+}
+
+.hero::after {
+  right: -10%;
+  background-image: url("{% static 'gallery/images/Right_Hero.png' %}");
+  background-position: right center;
+}
+.hero::after {
+  right: -6%;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 600 600'%3E%3Cg fill='none' stroke='%236B4A5A' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round' opacity='0.95'%3E%3Cpath d='M94 300c42-10 79-29 111-58 30-27 51-60 61-100 5 39 20 72 46 101 29 32 64 51 106 57-42 8-78 27-107 58-26 28-41 61-45 100-10-38-31-71-61-99-31-29-68-48-111-59Z'/%3E%3Cpath d='M143 300c29-8 55-22 77-43 21-20 36-44 45-73 7 28 20 52 39 73 21 22 46 37 76 43-30 5-55 20-76 43-19 20-32 44-39 73-9-29-24-53-45-73-22-21-48-35-77-43Z'/%3E%3Cpath d='M281 164c10 39 31 73 64 101 31 26 67 42 108 49-38 7-72 24-102 52-32 30-53 67-62 111'/%3E%3Cpath d='M302 225c7 22 19 41 37 58 24 22 52 36 84 43-29 6-54 19-75 40-22 21-37 47-45 77'/%3E%3Cpath d='M267 132c10 39 12 78 6 117-8 55-31 103-68 145'/%3E%3Cpath d='M314 132c-8 33-9 66-4 98 8 49 28 92 60 129'/%3E%3Cpath d='M355 160c35 11 66 29 92 56 28 29 47 63 57 103'/%3E%3Cpath d='M359 438c34-11 64-29 89-55 29-29 48-64 58-106'/%3E%3Ccircle cx='281' cy='300' r='22'/%3E%3Ccircle cx='281' cy='300' r='54' opacity='0.7'/%3E%3Ccircle cx='281' cy='300' r='94' opacity='0.5'/%3E%3C/g%3E%3C/svg%3E");
+}
+.hero-logo-wrap,
+.hero-name,
+.hero-sub,
+.hero-btn {
+  position: relative;
+  z-index: 1;
+}
+.hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.12;
+  background:
+    radial-gradient(circle at 20% 25%, rgba(176,122,40,0.10) 0, transparent 28%),
+    radial-gradient(circle at 80% 70%, rgba(176,122,40,0.08) 0, transparent 30%);
+}
+
+    .hero-logo-wrap {
+      width: min(36vw, 240px);
+      aspect-ratio: 1 / 1;
+      border-radius: 50%;
+      border: 1px solid var(--border-gold);
+      background: rgba(248,243,236,0.82);
+      box-shadow:
+        0 0 0 6px rgba(176,122,40,0.05),
+        0 20px 50px rgba(39,32,24,0.10),
+        0 0 40px rgba(176,122,40,0.08);
+      padding: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1.2rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-logo-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+      border-radius: 50%;
+    }
+
+.hero-name {
+  font-family: "Marck Script", cursive;
+  font-size: clamp(3.2rem, 8vw, 5.5rem);
+  letter-spacing: 0.03em;
+  color: #5a451c;
+  text-shadow: 0 6px 16px rgba(176,122,40,0.12);
+  line-height: 1;
+}
+
+  .hero-sub {
+  margin-top: 1rem;
+  max-width: 760px;
+  font-size: 0.95rem;
+  line-height: 1.9;
+  color: var(--text-mid);
+  position: relative;
+  z-index: 1;
+}
+
+.hero-btn {
+  margin-top: 1.8rem;
+  display: flex;
+  justify-content: center;
+  position: relative;
+  z-index: 1;
+}
+
+.hero-btn a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+
+  padding: 0.82rem 1.7rem;
+  min-height: 44px;
+
+  border-radius: 999px;
+  border: 1px solid #403528;
+  background: #403528;
+  color: var(--ivory);
+
+  font-family: "DM Sans", sans-serif;
+  font-size: 0.68rem;
+  font-weight: 400;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  line-height: 1;
+
+  box-shadow: 0 8px 22px rgba(39,32,24,0.16);
+  transition: all 0.3s ease;
+}
+
+.hero-btn a:hover {
+  background: var(--gold);
+  border-color: var(--gold);
+  color: var(--charcoal);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 24px rgba(176,122,40,0.2);
+}
+
+   .band {
+  background:
+    radial-gradient(circle at 50% 20%, rgba(176,122,40,0.06), transparent 60%),
+    linear-gradient(
+      90deg,
+      #0f1c24 0%,
+      #132b33 25%,
+      #1b3a40 50%,
+      #132b33 75%,
+      #0f1c24 100%
+    );
+
+  padding: 3.2rem 2rem;
+  text-align: center;
+  position: relative;
+}
+
+.band::before,
+.band::after {
+  content: "";
+  display: block;
+  width: 60px;
+  height: 1px;
+  background: linear-gradient(to right, transparent, var(--gold), transparent);
+  margin: 0 auto;
+}
+
+.band::before { margin-bottom: 1.4rem; }
+.band::after { margin-top: 1.4rem; }
+
+.band p {
+  font-family: "Cormorant", serif;
+  font-size: clamp(1.1rem, 2.4vw, 1.6rem); /* slightly bigger */
+  font-style: italic;
+  color: rgba(248,243,236,0.92);
+  letter-spacing: 0.04em;
+  line-height: 1.8;
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.band span {
+  color: var(--gold-light); /* brighter gold for contrast */
+}
+
+    .gallery-sec {
+      padding: 5.5rem 0 7rem;
+      background: var(--ivory);
+    }
+
+    .g-head {
+      text-align: center;
+      padding: 0 2rem 2.5rem;
+      opacity: 0;
+      transform: translateY(18px);
+      transition: opacity 0.7s, transform 0.7s;
+    }
+
+    .g-head.vis {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .g-eyebrow {
+      font-size: 0.6rem;
+      letter-spacing: 0.5em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 0.7rem;
+    }
+
+    .g-title {
+      font-family: "Cormorant", serif;
+      font-size: clamp(1.9rem, 4vw, 3rem);
+      font-weight: 400;
+      font-style: italic;
+      color: var(--charcoal);
+      line-height: 1.1;
+    }
+
+    .g-rule {
+      width: 44px;
+      height: 1px;
+      margin: 1.1rem auto 0;
+      background: linear-gradient(to right, transparent, var(--gold), transparent);
+    }
+
+    .fbar {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  padding: 0 2rem 3rem;
+
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity 0.7s 0.12s, transform 0.7s 0.12s;
+}
+
+.fbar.vis {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* FILTER BUTTON */
+.fb {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  background: transparent;
+  border: 1px solid #403528;
+  color: #403528;
+
+  padding: 0.6rem 1.4rem;
+  min-height: 38px;
+
+  font-family: "DM Sans", sans-serif;
+  font-size: 0.62rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+
+  border-radius: 999px;
+  cursor: pointer;
+
+  transition: all 0.3s ease;
+}
+
+/* HOVER */
+.fb:hover {
+  background: #403528;
+  border-color: #403528;
+  color: var(--ivory);
+
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(39,32,24,0.15);
+}
+
+/* ACTIVE */
+.fb.on {
+  background: #403528;
+  border-color: #403528;
+  color: var(--ivory);
+
+  box-shadow: 0 6px 18px rgba(39,32,24,0.18);
+}
+
+    .masonry {
+      columns: 4;
+      column-gap: 1.1rem;
+      padding: 0 2.2rem;
+      max-width: 1440px;
+      margin: 0 auto;
+    }
+
+    .card {
+      break-inside: avoid;
+      margin-bottom: 1.1rem;
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+      opacity: 0;
+      transform: translateY(22px);
+      transition: opacity 0.5s, transform 0.5s, box-shadow 0.4s, border-color 0.4s;
+      background: var(--ivory-warm);
+      border-radius: 8px;
+      border: 1px solid rgba(176,122,40,0.18);
+      box-shadow: inset 0 0 0 4px rgba(176,122,40,0.04);
+    }
+
+    .card.vis { opacity: 1; transform: translateY(0); }
+
+    .card:hover {
+      transform: translateY(-6px);
+      border-color: rgba(176,122,40,0.45);
+      box-shadow: 0 12px 36px rgba(176,122,40,0.12), inset 0 0 0 4px rgba(176,122,40,0.06);
+    }
+
+    .card img {
+      width: 100%;
+      display: block;
+      border-radius: 8px 8px 0 0;
+      transition: transform 0.6s cubic-bezier(0.25,0.46,0.45,0.94);
+      min-height: 180px;
+      background: var(--ivory-warm);
+    }
+
+    .card:hover img { transform: scale(1.04); }
+
+    .badge {
+      position: absolute;
+      top: 0.8rem;
+      left: 0.8rem;
+      z-index: 10;
+      padding: 0.3rem 0.7rem;
+      font-family: "DM Sans", sans-serif;
+      font-size: 0.55rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      font-weight: 400;
+      background: var(--charcoal);
+      color: var(--ivory);
+    }
+
+    .card-ov {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(25,18,10,0.97) 0%, rgba(25,18,10,0.75) 45%, rgba(25,18,10,0.15) 80%, transparent 100%);
+      opacity: 0;
+      transition: opacity 0.4s;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 1.3rem;
+      border-radius: 8px;
+    }
+
+    .card:hover .card-ov { opacity: 1; }
+
+    .c-name {
+      font-family: "Cormorant", serif;
+      font-size: 1.15rem;
+      font-style: italic;
+      color: #fff;
+      margin-bottom: 0.2rem;
+      transform: translateY(8px);
+      transition: transform 0.4s;
+    }
+
+    .card:hover .c-name { transform: translateY(0); }
+
+    .c-size {
+      font-size: 0.58rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.5);
+      margin-bottom: 0.5rem;
+      transform: translateY(8px);
+      transition: transform 0.4s 0.02s;
+    }
+
+    .card:hover .c-size { transform: translateY(0); }
+
+    .c-desc {
+      font-size: 0.68rem;
+      color: rgba(255,255,255,0.75);
+      line-height: 1.5;
+      transform: translateY(8px);
+      transition: transform 0.4s 0.03s;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .card:hover .c-desc { transform: translateY(0); }
+
+    .about-sec {
+  position: relative;
+  padding: 7rem 0rem; /* remove side padding */
+  background: var(--ivory-warm);
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.about-sec::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+
+  width: 40%;             /* 🔥 controls empty canvas */
+
+  background-image: url("{% static 'gallery/images/Left_Hero.svg' %}");
+  background-repeat: repeat-y;
+  background-size: contain;
+  background-position: right top;
+
+  transform: scaleX(-1);
+  opacity: 0.2;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.about-inner {
+  position: relative;
+  z-index: 1;
+  max-width: 1100px;
+  margin: 0;              /* 🔥 REMOVE centering */
+  padding-left: 4rem;     /* spacing from edge */
+  display: flex;
+  gap: 4rem;
+  align-items: flex-start;
+}
+
+    .about-img-col {
+      flex-shrink: 0;
+      width: 260px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1.5rem;
+    }
+
+    .about-img-frame {
+      width: 240px;
+      height: 300px;
+      border: 1px solid var(--border-gold);
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--ivory);
+      position: relative;
+    }
+
+    .about-img-frame::after {
+      content: "";
+      position: absolute;
+      inset: 8px;
+      border: 1px solid var(--border-gold);
+      pointer-events: none;
+    }
+
+    .about-sig {
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .about-sig span:first-child {
+      font-family: "Cormorant", serif;
+      font-size: 1.4rem;
+      font-style: italic;
+      color: var(--charcoal);
+    }
+
+    .about-sig-tag {
+      font-size: 0.58rem;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+
+    .about-text-col {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  max-width: 620px;
+  width: 620px;           /* fixed readable width */
+  align-items: flex-start;
+}
+
+    .about-eyebrow {
+      font-size: 0.6rem;
+      letter-spacing: 0.5em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 0.7rem;
+    }
+
+    .about-title {
+      font-family: "Cormorant", serif;
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 400;
+      font-style: italic;
+      color: var(--charcoal);
+      line-height: 1.15;
+      margin-bottom: 0.8rem;
+    }
+
+    .about-rule {
+      width: 44px;
+      height: 1px;
+      background: linear-gradient(to right, var(--gold), transparent);
+      margin-bottom: 2rem;
+    }
+
+    .about-body {
+  font-size: 0.95rem;
+  line-height: 1.75;
+  color: var(--text-mid);
+  margin-bottom: 1.2rem;
+}
+
+    .about-body em {
+      font-style: italic;
+      color: var(--charcoal);
+    }
+
+    .about-collab {
+      margin-top: 2rem;
+      padding-left: 1.5rem;
+      border-left: 2px solid var(--border-gold);
+    }
+
+    .about-collab-text {
+      font-size: 0.8rem;
+      color: var(--text-soft);
+      line-height: 1.8;
+      font-style: italic;
+    }
+
+    .about-collab-text strong {
+      color: var(--charcoal);
+      font-style: normal;
+    }
+
+    .about-final {
+      margin-top: 2rem;
+      padding-top: 1.2rem;
+      border-top: 1px solid var(--border-gold);
+    }
+
+    .about-final-lead {
+      font-size: 0.72rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--text-soft);
+      margin-bottom: 0.45rem;
+    }
+
+    .about-final-quote {
+      font-family: "Cormorant", serif;
+      font-size: 1.3rem;
+      font-style: italic;
+      color: var(--charcoal);
+      line-height: 1.45;
+      max-width: 520px;
+    }
+
+    .contact-sec {
+      padding: 7rem 2rem;
+      background: var(--ivory);
+      text-align: center;
+    }
+
+    .contact-inner {
+      text-align: center;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .contact-eyebrow {
+      font-size: 0.7rem;
+      letter-spacing: 0.25em;
+      color: var(--gold);
+      margin-bottom: 1rem;
+    }
+
+    .contact-title {
+      font-family: "Cormorant", serif;
+      font-size: 2.8rem;
+      font-weight: 400;
+      margin-bottom: 1.2rem;
+      line-height: 1.2;
+    }
+
+    .contact-rule {
+      width: 40px;
+      height: 1px;
+      background: var(--gold);
+      margin: 0 auto 1.5rem auto;
+    }
+
+    .contact-text {
+      font-size: 0.95rem;
+      line-height: 1.7;
+      color: var(--text-mid);
+      margin-bottom: 2rem;
+    }
+
+    .contact-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.55rem 1rem;
+  border-radius: 999px;
+  background: var(--ivory);
+  color: var(--charcoal);
+  font-size: 0.85rem;
+  text-decoration: none;
+  border: 1px solid rgba(0,0,0,0.08);
+  transition: all 0.2s ease;
+}
+
+    .contact-pills {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.8rem;
+  flex-wrap: wrap;
+  width: 100%;
+  margin-top: 2rem;
+  }
+
+.contact-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: 1px solid #403528;
+  color: #403528;
+  padding: 0.6rem 1.4rem;
+  min-height: 38px;
+  font-family: "DM Sans", sans-serif;
+  font-size: 0.62rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  border-radius: 999px;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.contact-pill:hover {
+  background: #403528;
+  border-color: #403528;
+  color: var(--ivory);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(39,32,24,0.15);
+}
+footer {
+  background:
+    radial-gradient(circle at 50% 20%, rgba(176,122,40,0.06), transparent 60%),
+    linear-gradient(
+      90deg,
+      #0f1c24 0%,
+      #132b33 25%,
+      #1b3a40 50%,
+      #132b33 75%,
+      #0f1c24 100%
+    );
+
+  padding: 5rem 3rem 3rem;
+  text-align: center;
+  position: relative;
+}
+
+footer::before {
+  content: "";
+  display: block;
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(to right, transparent, rgba(176,122,40,0.4), transparent);
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+/* ── BRAND ── */
+.f-brand {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 1.8rem;
+}
+
+.f-logo-circle {
+  width: 74px;
+  height: 74px;
+  border-radius: 50%;
+  border: 1px solid rgba(176,122,40,0.4);
+  background: rgba(248,243,236,0.95);
+  padding: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.f-logo-circle img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  border-radius: 50%;
+}
+
+/* ── NAME (FIXED FONT) ── */
+.f-name {
+  font-family: "Cormorant", serif;
+  font-style: italic;
+  font-weight: 400;
+  font-size: 2.2rem;              /* slightly bigger */
+  letter-spacing: 0.03em;
+  color: rgba(248,243,236,0.9);
+}
+
+/* ── RULE ── */
+.f-rule {
+  width: 44px;
+  height: 1px;
+  margin: 0 auto 1.4rem;
+  background: linear-gradient(to right, transparent, var(--gold), transparent);
+}
+
+/* ── TAGLINE ── */
+.f-tag {
+  font-size: 0.65rem;             /* ↑ slightly bigger */
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: rgba(248,243,236,0.55);
+}
+
+/* ── LINKS ── */
+.f-links {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0.4rem 2rem;
+  margin-top: 2.2rem;
+}
+
+.f-links a {
+  font-size: 0.68rem;             /* ↑ slightly bigger */
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(248,243,236,0.6);
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.f-links a:hover {
+  color: var(--gold-light);
+}
+
+/* ── SIGNATURE LINE ── */
+.f-handmade {
+  font-family: "Cormorant", serif;
+  font-size: clamp(1rem, 2vw, 1.3rem);  /* ↑ bigger */
+  font-style: italic;
+  color: rgba(248,243,236,0.35);
+  letter-spacing: 0.08em;
+  margin-top: 2.5rem;
+  margin-bottom: 0.3rem;
+}
+
+/* ── COPYRIGHT ── */
+.f-copy {
+  font-size: 0.58rem;             /* ↑ slightly bigger */
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: rgba(248,243,236,0.3);
+}
+
+/* ── BACK BUTTON ── */
+.back-top {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  width: 44px;
+  height: 44px;
+  background: #132b33;
+  border: 1px solid var(--border-gold);
+  border-radius: 50%;
+  color: var(--ivory);
+  font-size: 1.1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.3s;
+  z-index: 400;
+}
+
+.back-top.on {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.back-top:hover {
+  background: var(--gold);
+  border-color: var(--gold);
+  transform: translateY(-3px);
+}
+
+    .empty-state {
+      column-span: all;
+      text-align: center;
+      padding: 6rem 2rem 5rem;
+      opacity: 0;
+      animation: fadeUp 0.8s ease forwards;
+    }
+
+    .empty-state img {
+      width: 240px;
+      max-width: 80%;
+      margin-bottom: 1.8rem;
+      opacity: 0.95;
+      filter: saturate(0.95);
+    }
+
+    .empty-title {
+      font-family: "Cormorant", serif;
+      font-size: 1.8rem;
+      font-style: italic;
+      color: var(--charcoal);
+      margin-bottom: 0.6rem;
+    }
+
+    .empty-text {
+      font-size: 0.75rem;
+      letter-spacing: 0.12em;
+      color: var(--text-soft);
+      line-height: 1.9;
+      max-width: 440px;
+      margin: 0 auto;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 1200px) {
+      .masonry { columns: 3; }
+    }
+
+    @media (max-width: 900px) {
+      .about-inner {
+        flex-direction: column;
+        gap: 3rem;
+      }
+
+      .about-img-col {
+        width: 100%;
+      }
+
+      .about-img-frame {
+        width: 100%;
+        max-width: 340px;
+        height: 260px;
+      }
+    }
+
+    @media (max-width: 780px) {
+      .masonry { columns: 2; }
+
+      .site-header {
+        padding: 0 1rem;
+        height: 82px;
+      }
+
+      .main-nav {
+        display: none;
+      }
+
+      .logo-name {
+        font-size: 1.45rem;
+      }
+
+      .logo-tag {
+        display: none;
+      }
+
+      .hero-logo-wrap {
+        width: min(52vw, 220px);
+      }
+    }
+
+    @media (max-width: 480px) {
+      .masonry { columns: 1; }
+
+      .hero {
+        padding-top: 110px;
+      }
+
+      .hero-logo-wrap {
+        width: min(64vw, 190px);
+      }
+
+      .logo-sep {
+        display: none;
+      }
+    }
+    .hero-art {
+  position: absolute;
+  top: 55%;
+  width: 46vw;
+  height: 46vw;
+  max-width: 620px;
+  max-height: 620px;
+  transform: translateY(-50%);
+  pointer-events: none;
+  z-index: 0;
+  background-repeat: no-repeat;
+  background-size: contain;
+  opacity: 0.40;
+}
+
+.hero-art-left {
+  left: 13%;
+  background-image: url("{% static 'gallery/images/Left_Hero.svg' %}");
+  background-position: left center;
+}
+
+.hero-art-right {
+  right: 8%;
+  background-image: url("{% static 'gallery/images/Left_Hero.svg' %}?v=2");
+  background-position: right center;
+  transform: translateY(-50%) scaleX(-1);
+}
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a class="logo-wrap" href="{% url 'gallery:home' %}">
+    <div class="logo-circle">
+      <img src="{% static 'gallery/images/Logo-clean.png' %}" alt="Tamissa logo" />
+    </div>
+
+    <div class="logo-sep"></div>
+
+    <div class="logo-text">
+      <span class="logo-name">Tamissa</span>
+      <span class="logo-tag">HANDMADE ART &amp; DECOR</span>
+    </div>
+  </a>
+
+  <nav class="main-nav">
+    <a href="#gallery">Gallery</a>
+    <a href="#about">About</a>
+    <a href="#contact">Contact</a>
+  </nav>
+</header>
+
+<section class="hero">
+  <div class="hero-art hero-art-left"></div>
+  <div class="hero-art hero-art-right"></div>
+
+  <div class="hero-logo-wrap">
+    <img src="{% static 'gallery/images/Logo-clean.png' %}" alt="Tamissa logo" />
+  </div>
+
+  <h1 class="hero-name">Tamissa</h1>
+
+  <div class="hero-sub">
+    A curated collection of handmade artworks created with texture, color, and emotion —
+    each piece carrying its own story and soul.
+  </div>
+
+  <div class="hero-btn">
+    <a href="#gallery">Explore Collection</a>
+  </div>
+</section>
+
+<div class="band">
+  <p>Every piece in Tamissa carries a <span>living signature</span> — no two pieces share the same soul.</p>
+</div>
+
+<section class="gallery-sec" id="gallery">
+  <div class="g-head" id="gHead">
+    <p class="g-eyebrow">The Collection</p>
+    <h2 class="g-title">Art made to live in your home</h2>
+    <div class="g-rule"></div>
+  </div>
+
+  <div class="fbar" id="fbar">
+    <button class="fb on" data-f="all">All Products</button>
+    <button class="fb" data-f="painting">Paintings</button>
+    <button class="fb" data-f="lamp">Lamps</button>
+    <button class="fb" data-f="tray">Trays</button>
+    <button class="fb" data-f="accessory">Accessories</button>
+    <button class="fb" data-f="wall_decoration">Wall Decoration</button>
+  </div>
+
+  <div class="masonry" id="masonry"></div>
+</section>
+
+<section class="about-sec" id="about">
+  <div class="about-inner">
+    <div class="about-img-col">
+      <div class="about-img-frame">
+        <img src="{% static 'gallery/images/fatema.jpg' %}" alt="Fatema — Founder of Tamissa" style="width:100%;height:100%;object-fit:cover;" />
+      </div>
+      <div class="about-sig">
+        <span>Fatema</span>
+        <span class="about-sig-tag">Founder &amp; Artist</span>
+      </div>
+    </div>
+
+    <div class="about-text-col">
+      <p class="about-eyebrow">The Story</p>
+      <h2 class="about-title">Born from talent,<br/>built with heart</h2>
+      <div class="about-rule"></div>
+
+      <p class="about-body">
+        The idea for Tamissa has lived with me for years — appearing, disappearing, and returning stronger each time.
+      </p>
+
+      <p class="about-body">
+        I always knew I was creative. But more than that, I was raised in a home where creating by hand was simply part of life.
+      </p>
+
+      <p class="about-body">
+        My father, who passed away four years ago, was an extraordinary artist and craftsman.
+        He didn’t just teach me techniques — he taught me how to <em>see</em>.
+      </p>
+
+      <p class="about-body">
+        He could look at something others might ignore, or even throw away, and imagine what it could become.
+        From him, I learned that creativity is not about what you have — it’s about how you see it.
+      </p>
+
+      <p class="about-body">
+        For years, people around me would say, "Why don’t you share your work?"
+        And eventually, I understood something simple:
+      </p>
+
+      <p class="about-body">
+        Opportunities don’t arrive fully formed.
+        We build them — step by step — from what we already have.
+      </p>
+
+      <p class="about-body">
+        So I decided to share my work, hoping it finds its way to people who connect with its colours, its energy, and its story.
+      </p>
+
+      <p class="about-body">
+        My pieces move across many materials and techniques — wood, resin, UV resin, acrylic painting, decoupage, sculpting, carving, mosaic, and more.
+        Some are shaped entirely by hand. Others involve tools, layers, and experimentation.
+        Each material opens a different path.
+      </p>
+
+      <p class="about-body">
+        Colour is at the centre of everything I create.
+        I see it as something we experience every day — and when used with intention, it can transform how a space feels, and how we feel within it.
+      </p>
+
+      <p class="about-body">
+        Tamissa is also a family story.
+        We are three siblings, and creativity runs through all of us.
+        Every piece here is handmade, personal, and unique — no two are ever truly the same, unless created by request.
+      </p>
+
+      <p class="about-body">
+        Collaboration is an important part of this journey.
+        I am surrounded by talented artists whose work deserves to be seen — whether it is dark, light, honest, or experimental.
+      </p>
+
+      <div class="about-collab">
+        <p class="about-collab-text">
+          Some pieces were created in collaboration with a brilliant artist and close friend, <strong>Ahmed Hany</strong>.
+          His contribution brings a different depth and perspective to the work, and his portfolio will be linked here soon.
+        </p>
+      </div>
+
+      <div class="about-final">
+        <p class="about-final-lead">Tamissa is, at its core, about one thing:</p>
+        <p class="about-final-quote">
+          Taking what exists — and seeing what it could become.
+        </p>
+      </div>
+
+      <div class="contact-pills">
+        <a class="contact-pill" href="mailto:Fatema.issa.16.06@gmail.com">✉ Email us</a>
+        <a class="contact-pill" href="https://instagram.com/tamyzdesign" target="_blank">
+  ◈ Instagram
+</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="f-brand">
+    <div class="f-logo-circle">
+      <img src="{% static 'gallery/images/Logo-clean.png' %}" alt="Tamissa logo" />
+    </div>
+    <span class="f-name">Tamissa</span>
+  </div>
+
+  <div class="f-rule"></div>
+  <p class="f-tag">No two pieces share the same soul &nbsp;·&nbsp; Ships with love</p>
+
+  <div class="f-links">
+    <a href="#gallery">Gallery</a>
+    <a href="#about">About</a>
+    <a href="mailto:Fatema.issa.16.06@gmail.com">Contact</a>
+    <a href="https://instagram.com/tamyzdesign" target="_blank">Instagram</a>
+  </div>
+
+  <p class="f-handmade">Every piece made by hand, with soul.</p>
+  <p class="f-copy">© 2025 Tamissa · All rights reserved</p>
+</footer>
+
+<button class="back-top" id="backTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="Back to top">↑</button>
+
+<script>
+  const ITEMS = [
+    {% for art in artworks %}
+    {
+      id: {{ art.id }},
+      slug: "{{ art.slug|escapejs }}",
+      name: "{{ art.title|escapejs }}",
+      cat: "{{ art.artwork_type|escapejs }}",
+      size: "{{ art.width_cm }} × {{ art.height_cm }} cm",
+      desc: "{{ art.description|default:''|escapejs }}",
+      src: "{% if art.main_image_url %}{{ art.main_image_url|escapejs }}{% elif art.main_image %}{{ art.main_image.url|escapejs }}{% else %}{% static 'gallery/images/placeholder.png' %}{% endif %}",
+      detail_url: "{% url 'gallery:artwork_detail' art.slug %}",
+      acquired: {% if art.status == 'acquired' %}true{% else %}false{% endif %}
+    }{% if not forloop.last %},{% endif %}
+    {% endfor %}
+  ];
+
+  const CATEGORY_ORDER = {
+    painting: 1,
+    lamp: 2,
+    tray: 3,
+    accessory: 4,
+    wall_decoration: 5
+  };
+
+  ITEMS.sort((a, b) => {
+    return (CATEGORY_ORDER[a.cat] || 99) - (CATEGORY_ORDER[b.cat] || 99);
+  });
+
+  document.addEventListener("DOMContentLoaded", function () {
+    function render(filter) {
+      const el = document.getElementById("masonry");
+      el.innerHTML = "";
+
+      const filtered = filter === "all"
+        ? ITEMS
+        : ITEMS.filter(p => p.cat === filter);
+
+      if (filtered.length === 0) {
+        el.innerHTML = `
+          <div class="empty-state">
+            <img src="/static/gallery/images/in_progress.png" alt="In the making" />
+            <p class="empty-title">In the making</p>
+            <p class="empty-text">
+              New pieces are taking shape — quietly, patiently.<br/>
+              This space will soon hold something made with soul.
+            </p>
+          </div>
+        `;
+        return;
+      }
+
+      filtered.forEach((p, i) => {
+        const d = document.createElement("div");
+        d.className = "card";
+        d.onclick = () => {
+          window.location.href = p.detail_url;
+        };
+
+        let badge = "";
+        if (p.acquired) {
+          badge = '<div class="badge">Acquired</div>';
+        }
+
+        d.innerHTML =
+          badge +
+          '<img src="' + p.src + '" alt="' + p.name + '" loading="lazy" />' +
+          '<div class="card-ov">' +
+            '<div class="c-name">' + p.name + '</div>' +
+            '<div class="c-size">' + p.size + '</div>' +
+            '<div class="c-desc">' + p.desc + '</div>' +
+          '</div>';
+
+        el.appendChild(d);
+        setTimeout(() => d.classList.add("vis"), 50 + i * 55);
+      });
+    }
+
+    document.querySelectorAll(".fb").forEach(b => {
+      b.addEventListener("click", () => {
+        document.querySelectorAll(".fb").forEach(x => x.classList.remove("on"));
+        b.classList.add("on");
+        render(b.dataset.f);
+      });
+    });
+
+    const backTop = document.getElementById("backTop");
+    window.addEventListener("scroll", () => {
+      backTop.classList.toggle("on", window.scrollY > 600);
+    });
+
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) entry.target.classList.add("vis");
+      });
+    }, { threshold: 0.1 });
+
+    ["gHead", "fbar"].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) io.observe(el);
+    });
+
+    render("all");
+  });
+</script>
+
+</body>
+</html>

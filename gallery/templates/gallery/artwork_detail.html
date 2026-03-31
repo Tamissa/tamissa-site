@@ -1,0 +1,647 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{{ artwork.title }} — Tamissa</title>
+  <link rel="icon" type="image/png" href="{% static 'gallery/images/Logo-removebg.png' %}" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=DM+Sans:wght@300;400&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+   :root {
+  --ivory: #F7F3EC;
+  --ivory-warm: #F1E9D9;
+  --charcoal: #272018;
+  --charcoal-mid: #403528;
+  --charcoal-soft: #7A6B5A;
+
+  --gold: #B07A28;
+  --gold-light: #C79A52;
+  --gold-pale: #E6D7C3;
+
+  --beige: #E6D7C3;
+  --dusty-nude: #D8BFA7;
+  --muted-blush: #E8CFC3;
+
+  --plum: #6B4A5A;
+  --vintage-blue: #7A8FA3;
+  --muted-teal: #6F8F8B;
+
+  --text-dark: #272018;
+  --text-mid: #52453A;
+  --text-soft: #8C7B6A;
+
+  --border: rgba(39, 32, 24, 0.10);
+  --border-gold: rgba(176, 122, 40, 0.28);
+}
+
+    html { scroll-behavior:smooth; }
+
+    body {
+      background:var(--ivory);
+      color:var(--text-dark);
+      font-family:"DM Sans", sans-serif;
+      font-weight:300;
+      overflow-x:hidden;
+    }
+
+    body::before {
+      content:"";
+      position:fixed;
+      inset:0;
+      pointer-events:none;
+      z-index:9999;
+      background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      background-size:300px;
+    }
+
+    /* ── HEADER ── */
+    header {
+      position:fixed;
+      top:0; left:0; right:0;
+      z-index:500;
+      height:68px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      padding:0 2rem;
+      background:rgba(248,243,236,0.93);
+      backdrop-filter:blur(14px);
+      border-bottom:1px solid var(--border);
+    }
+
+    .logo-wrap {
+      display:flex;
+      align-items:center;
+      gap:0.9rem;
+      text-decoration:none;
+      flex-shrink:0;
+    }
+
+    .logo-sep { width:1px; height:30px; background:var(--border-gold); }
+
+    .logo-text { display:flex; flex-direction:column; gap:2px; }
+
+    .logo-name {
+      font-family:"Cormorant", serif;
+      font-size:1.5rem;
+      font-weight:400;
+      font-style:italic;
+      letter-spacing:0.16em;
+      color:var(--charcoal);
+      line-height:1;
+    }
+
+    .logo-tag {
+      font-size:0.52rem;
+      letter-spacing:0.42em;
+      text-transform:uppercase;
+      color:var(--gold);
+    }
+
+    nav { display:flex; align-items:center; gap:2.2rem; }
+
+    nav a {
+      font-size:0.68rem;
+      letter-spacing:0.2em;
+      text-transform:uppercase;
+      color:var(--text-mid);
+      text-decoration:none;
+      transition:color 0.3s;
+      position:relative;
+    }
+
+    nav a::after {
+      content:"";
+      position:absolute;
+      bottom:-2px; left:0; right:0;
+      height:1px;
+      background:var(--gold);
+      transform:scaleX(0);
+      transition:transform 0.3s;
+    }
+
+    nav a:hover { color:var(--charcoal); }
+    nav a:hover::after { transform:scaleX(1); }
+
+    /* ── BREADCRUMB ── */
+    .breadcrumb {
+      padding:calc(68px + 2rem) 3rem 0;
+      display:flex;
+      align-items:center;
+      gap:0.6rem;
+      font-size:0.6rem;
+      letter-spacing:0.25em;
+      text-transform:uppercase;
+      color:var(--text-soft);
+    }
+
+    .breadcrumb a {
+      color:var(--text-soft);
+      text-decoration:none;
+      transition:color 0.2s;
+    }
+
+    .breadcrumb a:hover { color:var(--gold); }
+    .breadcrumb span { color:var(--border-gold); }
+
+    /* ── DETAIL LAYOUT ── */
+    .detail-wrap {
+      max-width:1200px;
+      margin:0 auto;
+      padding:2.5rem 3rem 7rem;
+      display:grid;
+      grid-template-columns:1fr 420px;
+      gap:5rem;
+      align-items:start;
+    }
+
+    /* ── IMAGE AREA ── */
+    .detail-img-col { position:sticky; top:88px; }
+
+    .img-frame {
+      position:relative;
+      background:var(--ivory-warm);
+      border:1px solid var(--border-gold);
+      border-radius:4px;
+      overflow:hidden;
+    }
+
+    .img-frame::after {
+      content:"";
+      position:absolute;
+      inset:10px;
+      border:1px solid rgba(176,122,40,0.15);
+      pointer-events:none;
+    }
+
+    .img-frame img {
+      width:100%;
+      display:block;
+      max-height:70vh;
+      object-fit:contain;
+      border-radius:4px;
+    }
+
+    .img-acquired {
+      position:absolute;
+      top:1rem;
+      left:1rem;
+      padding:0.3rem 0.8rem;
+      background:rgba(39,32,24,0.8);
+      color:var(--gold-pale);
+      font-family:"Cormorant", serif;
+      font-size:0.8rem;
+      font-style:italic;
+      letter-spacing:0.1em;
+      border-radius:2px;
+      backdrop-filter:blur(4px);
+    }
+
+    /* ── INFO AREA ── */
+    .detail-info-col { padding-top:0.5rem; }
+
+    .d-eyebrow {
+      font-size:0.58rem;
+      letter-spacing:0.5em;
+      text-transform:uppercase;
+      color:var(--gold);
+      margin-bottom:0.8rem;
+    }
+
+    .d-title {
+      font-family:"Cormorant", serif;
+      font-size:clamp(2rem, 4vw, 3rem);
+      font-weight:400;
+      font-style:italic;
+      color:var(--charcoal);
+      line-height:1.15;
+      margin-bottom:0.5rem;
+    }
+
+    .d-rule {
+      width:44px;
+      height:1px;
+      background:linear-gradient(to right, var(--gold), transparent);
+      margin:1.2rem 0 2rem;
+    }
+
+    /* Specs table */
+    .d-specs {
+      display:flex;
+      flex-direction:column;
+      gap:0;
+      margin-bottom:2.5rem;
+      border:1px solid var(--border-gold);
+      border-radius:4px;
+      overflow:hidden;
+    }
+
+    .spec-row {
+      display:flex;
+      align-items:center;
+      padding:0.7rem 1rem;
+      border-bottom:1px solid var(--border-gold);
+    }
+
+    .spec-row:last-child { border-bottom:none; }
+
+    .spec-label {
+      font-size:0.6rem;
+      letter-spacing:0.3em;
+      text-transform:uppercase;
+      color:var(--text-soft);
+      width:110px;
+      flex-shrink:0;
+    }
+
+    .spec-value {
+      font-size:0.82rem;
+      color:var(--text-dark);
+      letter-spacing:0.04em;
+    }
+
+    .collab-note {
+      display:inline-flex;
+      align-items:center;
+      gap:0.4rem;
+      font-size:0.75rem;
+      font-style:italic;
+      color:var(--gold);
+    }
+
+    /* Description */
+    .d-desc-label {
+      font-size:0.6rem;
+      letter-spacing:0.4em;
+      text-transform:uppercase;
+      color:var(--text-soft);
+      margin-bottom:0.9rem;
+    }
+
+    .d-desc {
+      font-size:0.88rem;
+      color:var(--text-mid);
+      line-height:1.9;
+      padding-left:1rem;
+      border-left:2px solid var(--border-gold);
+      margin-bottom:3rem;
+    }
+
+    /* Enquire button — replaces any buy/cart action */
+    .d-enquire {
+      display:inline-flex;
+      align-items:center;
+      gap:0.7rem;
+      padding:0.85rem 2rem;
+      border:1px solid var(--charcoal);
+      background:var(--charcoal);
+      color:var(--ivory);
+      font-family:"DM Sans", sans-serif;
+      font-size:0.62rem;
+      letter-spacing:0.3em;
+      text-transform:uppercase;
+      text-decoration:none;
+      border-radius:999px;
+      transition:all 0.35s;
+      cursor:pointer;
+    }
+
+    .d-enquire:hover {
+      background:var(--gold);
+      border-color:var(--gold);
+      color:var(--charcoal);
+      transform:translateY(-2px);
+      box-shadow:0 8px 24px rgba(176,122,40,0.2);
+    }
+
+    .d-acquired-note {
+      font-family:"Cormorant", serif;
+      font-size:1rem;
+      font-style:italic;
+      color:var(--text-soft);
+      padding:0.8rem 1.2rem;
+      border:1px solid var(--border-gold);
+      border-radius:4px;
+      background:var(--ivory-warm);
+    }
+
+    /* ── RELATED ── */
+    .related-sec {
+      background:var(--ivory-warm);
+      padding:5rem 3rem;
+    }
+
+    .rel-head {
+      text-align:center;
+      margin-bottom:3rem;
+    }
+
+    .rel-eyebrow {
+      font-size:0.6rem;
+      letter-spacing:0.5em;
+      text-transform:uppercase;
+      color:var(--gold);
+      margin-bottom:0.6rem;
+    }
+
+    .rel-title {
+      font-family:"Cormorant", serif;
+      font-size:2rem;
+      font-style:italic;
+      font-weight:300;
+      color:var(--charcoal);
+    }
+
+    .rel-rule {
+      width:36px;
+      height:1px;
+      background:linear-gradient(to right, transparent, var(--gold), transparent);
+      margin:0.8rem auto 0;
+    }
+
+    .rel-grid {
+      display:grid;
+      grid-template-columns:repeat(4, 1fr);
+      gap:1.2rem;
+      max-width:1200px;
+      margin:0 auto;
+    }
+
+    .rel-card {
+      position:relative;
+      overflow:hidden;
+      cursor:pointer;
+      border-radius:4px;
+      border:1px solid rgba(176,122,40,0.18);
+      background:var(--ivory);
+      transition:transform 0.4s, box-shadow 0.4s;
+      text-decoration:none;
+    }
+
+    .rel-card:hover {
+      transform:translateY(-5px);
+      box-shadow:0 10px 28px rgba(176,122,40,0.12);
+      border-color:rgba(176,122,40,0.4);
+    }
+
+    .rel-card img {
+      width:100%;
+      aspect-ratio:1;
+      object-fit:cover;
+      display:block;
+      transition:transform 0.5s;
+    }
+
+    .rel-card:hover img { transform:scale(1.04); }
+
+    .rel-info {
+      padding:0.8rem 1rem;
+    }
+
+    .rel-name {
+      font-family:"Cormorant", serif;
+      font-size:1rem;
+      font-style:italic;
+      color:var(--charcoal);
+    }
+
+    .rel-type {
+      font-size:0.58rem;
+      letter-spacing:0.2em;
+      text-transform:uppercase;
+      color:var(--text-soft);
+      margin-top:3px;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background:var(--charcoal);
+      padding:4rem 3rem 2.5rem;
+      text-align:center;
+      position:relative;
+    }
+
+    footer::before {
+      content:"";
+      display:block;
+      width:100%;
+      height:1px;
+      background:linear-gradient(to right, transparent, rgba(176,122,40,0.4), transparent);
+      position:absolute;
+      top:0; left:0;
+    }
+
+    .f-brand {
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:1rem;
+      margin-bottom:1.4rem;
+    }
+
+    .f-name {
+      font-family:"Cormorant", serif;
+      font-size:1.8rem;
+      font-style:italic;
+      font-weight:300;
+      letter-spacing:0.2em;
+      color:rgba(248,243,236,0.8);
+    }
+
+    .f-rule {
+      width:44px;
+      height:1px;
+      margin:0 auto 1.2rem;
+      background:linear-gradient(to right, transparent, var(--gold), transparent);
+    }
+
+    .f-links {
+      display:flex;
+      justify-content:center;
+      gap:0.4rem 2rem;
+      flex-wrap:wrap;
+    }
+
+    .f-links a {
+      font-size:0.6rem;
+      letter-spacing:0.2em;
+      text-transform:uppercase;
+      color:var(--charcoal-soft);
+      text-decoration:none;
+      transition:color 0.3s;
+    }
+
+    .f-links a:hover { color:var(--gold-light); }
+
+    .f-copy {
+      font-size:0.52rem;
+      letter-spacing:0.3em;
+      text-transform:uppercase;
+      color:rgba(248,243,236,0.15);
+      margin-top:2rem;
+    }
+
+    @media(max-width:900px) {
+      .detail-wrap { grid-template-columns:1fr; gap:2.5rem; padding:1.5rem; }
+      .detail-img-col { position:static; }
+      .rel-grid { grid-template-columns:repeat(2, 1fr); }
+      header { padding:0 1.2rem; }
+      nav { display:none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <a class="logo-wrap" href="{% url 'gallery:home' %}">
+    <img src="{% static 'gallery/images/Logo-removebg.png' %}" alt="Tamissa logo" style="height:38px;width:auto;" />
+    <div class="logo-sep"></div>
+    <div class="logo-text">
+      <span class="logo-name">Tamissa</span>
+      <span class="logo-tag">HANDMADE ART &amp; DECOR</span>
+    </div>
+  </a>
+  <nav>
+    <a href="{% url 'gallery:home' %}#gallery">Gallery</a>
+    <a href="{% url 'gallery:home' %}#about">About</a>
+    <a href="{% url 'gallery:contact' %}">Contact</a>
+  </nav>
+</header>
+
+<!-- BREADCRUMB -->
+<div class="breadcrumb">
+  <a href="{% url 'gallery:home' %}">Home</a>
+  <span>›</span>
+  <a href="{% url 'gallery:home' %}#gallery">Gallery</a>
+  <span>›</span>
+  <span style="color:var(--text-mid);">{{ artwork.title }}</span>
+</div>
+
+<!-- DETAIL -->
+<div class="detail-wrap">
+
+  <!-- Image -->
+  <div class="detail-img-col">
+    <div class="img-frame">
+      {% if artwork.is_acquired %}
+        <div class="img-acquired">This piece has found its home</div>
+      {% endif %}
+      <img
+        src="{% if artwork.main_image_url %}{{ artwork.main_image_url }}{% elif artwork.main_image %}{{ artwork.main_image.url }}{% else %}{% static 'gallery/images/placeholder.png' %}{% endif %}"
+        alt="{{ artwork.title }}"
+      />
+    </div>
+  </div>
+
+  <!-- Info -->
+  <div class="detail-info-col">
+    <p class="d-eyebrow">{{ artwork.get_artwork_type_display }}</p>
+    <h1 class="d-title">{{ artwork.title }}</h1>
+    <div class="d-rule"></div>
+
+    <!-- Specs -->
+    <div class="d-specs">
+      {% if artwork.width_cm or artwork.height_cm %}
+      <div class="spec-row">
+        <span class="spec-label">Dimensions</span>
+        <span class="spec-value">
+          {% if artwork.width_cm %}{{ artwork.width_cm }}{% endif %}
+          {% if artwork.width_cm and artwork.height_cm %} × {% endif %}
+          {% if artwork.height_cm %}{{ artwork.height_cm }}{% endif %}
+          {% if artwork.depth_cm %} × {{ artwork.depth_cm }}{% endif %}
+          cm
+        </span>
+      </div>
+      {% endif %}
+
+      <div class="spec-row">
+        <span class="spec-label">Medium</span>
+        <span class="spec-value">{{ artwork.get_artwork_type_display }}</span>
+      </div>
+
+      <div class="spec-row">
+        <span class="spec-label">Status</span>
+        <span class="spec-value">
+          {% if artwork.is_acquired %}
+            This piece has found its home
+          {% else %}
+            Available
+          {% endif %}
+        </span>
+      </div>
+
+      {% if artwork.is_collaboration %}
+      <div class="spec-row">
+        <span class="spec-label">Note</span>
+        <span class="spec-value collab-note">✦ Collaboration piece</span>
+      </div>
+      {% endif %}
+    </div>
+
+    <!-- Description -->
+    {% if artwork.description %}
+    <p class="d-desc-label">About this piece</p>
+    <p class="d-desc">{{ artwork.description }}</p>
+    {% endif %}
+
+    <!-- Enquire / Acquired -->
+    {% if artwork.is_acquired %}
+      <p class="d-acquired-note">This piece has found its home and is no longer available. Feel free to reach out if you'd like something similar created.</p>
+      <br/>
+      <a class="d-enquire" href="mailto:Fatema.issa.16.06@gmail.com?subject=Custom piece enquiry">
+        ✉ &nbsp; Enquire about a custom piece
+      </a>
+    {% else %}
+      <a class="d-enquire" href="mailto:Fatema.issa.16.06@gmail.com?subject=Enquiry about {{ artwork.title }}">
+        ✉ &nbsp; Enquire about this piece
+      </a>
+    {% endif %}
+  </div>
+</div>
+
+<!-- RELATED WORKS -->
+{% if related %}
+<section class="related-sec">
+  <div class="rel-head">
+    <p class="rel-eyebrow">From the Collection</p>
+    <h2 class="rel-title">More like this</h2>
+    <div class="rel-rule"></div>
+  </div>
+  <div class="rel-grid">
+    {% for piece in related %}
+    <a class="rel-card" href="{% url 'gallery:artwork_detail' piece.slug %}">
+      <img
+        src="{% if piece.main_image_url %}{{ piece.main_image_url }}{% elif piece.main_image %}{{ piece.main_image.url }}{% else %}{% static 'gallery/images/placeholder.png' %}{% endif %}"
+        alt="{{ piece.title }}"
+        loading="lazy"
+      />
+      <div class="rel-info">
+        <p class="rel-name">{{ piece.title }}</p>
+        <p class="rel-type">{{ piece.get_artwork_type_display }}</p>
+      </div>
+    </a>
+    {% endfor %}
+  </div>
+</section>
+{% endif %}
+
+<!-- FOOTER -->
+<footer>
+  <div class="f-brand">
+    <span class="f-name">Tamissa</span>
+  </div>
+  <div class="f-rule"></div>
+  <div class="f-links">
+    <a href="{% url 'gallery:home' %}#gallery">Gallery</a>
+    <a href="{% url 'gallery:home' %}#about">About</a>
+    <a href="{% url 'gallery:contact' %}">Contact</a>
+  </div>
+  <p class="f-copy">© 2025 Tamissa · All rights reserved</p>
+</footer>
+
+</body>
+</html>

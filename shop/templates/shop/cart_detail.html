@@ -1,0 +1,225 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<style>
+  .cart-section{
+    padding:60px 0;
+  }
+
+  .cart-header{
+    margin-bottom:30px;
+  }
+
+  .cart-title{
+    margin:0 0 10px 0;
+    font-size:42px;
+    line-height:1.05;
+    color:#2e2824;
+  }
+
+  .cart-subtitle{
+    color:#6f6259;
+    font-size:16px;
+    line-height:1.7;
+    max-width:700px;
+  }
+
+  .cart-grid{
+    display:grid;
+    gap:22px;
+  }
+
+  .cart-card{
+    display:grid;
+    grid-template-columns:160px 1fr auto;
+    gap:22px;
+    align-items:center;
+    background:rgba(255,255,255,0.86);
+    border:1px solid #ede2d9;
+    border-radius:26px;
+    overflow:hidden;
+    box-shadow:0 14px 36px rgba(90, 68, 53, 0.06);
+    padding:18px;
+  }
+
+  .cart-image-wrap{
+    width:160px;
+    height:160px;
+    border-radius:18px;
+    overflow:hidden;
+    background:#efe8e2;
+  }
+
+  .cart-image{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:block;
+  }
+
+  .cart-info h2{
+    margin:0 0 10px 0;
+    font-size:24px;
+    color:#2f2a26;
+  }
+
+  .cart-meta{
+    color:#7a6e65;
+    font-size:15px;
+    line-height:1.8;
+  }
+
+  .cart-price{
+    margin-top:14px;
+    font-size:20px;
+    font-weight:600;
+    color:#2f2a26;
+  }
+
+  .hold-note{
+    margin-top:14px;
+    display:inline-block;
+    padding:8px 12px;
+    border-radius:999px;
+    background:rgba(199, 118, 43, 0.12);
+    color:#9a5819;
+    font-size:13px;
+    font-weight:600;
+  }
+
+  .cart-actions{
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+    align-items:flex-end;
+  }
+
+  .btn{
+    display:inline-block;
+    padding:13px 18px;
+    border-radius:14px;
+    text-decoration:none;
+    font-size:15px;
+    transition:transform 0.15s ease, opacity 0.15s ease;
+    white-space:nowrap;
+  }
+
+  .btn:hover{
+    transform:translateY(-1px);
+    opacity:0.96;
+  }
+
+  .btn-primary{
+    background:#2f2a26;
+    color:white;
+  }
+
+  .btn-secondary{
+    background:white;
+    color:#2f2a26;
+    border:1px solid #d8cdc3;
+  }
+
+  .empty{
+    max-width:900px;
+    margin:20px auto 0 auto;
+    background:rgba(255,255,255,0.75);
+    border:1px solid #eadfd6;
+    border-radius:24px;
+    padding:35px;
+    text-align:center;
+    color:#74675f;
+    box-shadow:0 10px 30px rgba(95, 70, 50, 0.05);
+  }
+
+  .empty h3{
+    margin-top:0;
+    margin-bottom:10px;
+    color:#332d29;
+  }
+
+  @media (max-width:900px){
+    .cart-card{
+      grid-template-columns:1fr;
+      align-items:start;
+    }
+
+    .cart-image-wrap{
+      width:100%;
+      height:260px;
+    }
+
+    .cart-actions{
+      align-items:stretch;
+    }
+  }
+</style>
+
+<section class="cart-section">
+  <div class="page-width">
+
+    <div class="cart-header">
+      <h1 class="cart-title">Your cart</h1>
+      <div class="cart-subtitle">
+        Artworks placed in your cart are held for 30 minutes. If checkout is not completed in time, the reservation expires and the artwork becomes available again.
+      </div>
+    </div>
+
+    {% if cart_items %}
+      <div class="cart-grid">
+        {% for item in cart_items %}
+          <article class="cart-card">
+
+            <div class="cart-image-wrap">
+              {% if item.artwork_image_url %}
+                <img
+                  class="cart-image"
+                  src="{{ item.artwork_image_url }}"
+                  alt="{{ item.artwork.title }}"
+                >
+              {% endif %}
+            </div>
+
+            <div class="cart-info">
+              <h2>{{ item.artwork.title }}</h2>
+
+              <div class="cart-meta">
+                {{ item.artwork.medium }}<br>
+                {{ item.artwork.width_cm }} × {{ item.artwork.height_cm }} cm
+              </div>
+
+              <div class="cart-price">
+                €{{ item.artwork.price_eur }}
+              </div>
+
+              <div class="hold-note">
+                Reserved for {{ item.minutes_left }} more minute{{ item.minutes_left|pluralize }}
+              </div>
+            </div>
+
+            <div class="cart-actions">
+              <a class="btn btn-primary" href="{% url 'shop:request_purchase' item.artwork.slug item.artwork.title %}">
+                Continue to purchase
+              </a>
+
+              <a class="btn btn-secondary" href="{% url 'shop:remove_from_cart' item.artwork.slug %}">
+                Remove from cart
+              </a>
+            </div>
+
+          </article>
+        {% endfor %}
+      </div>
+    {% else %}
+      <div class="empty">
+        <h3>Your cart is empty</h3>
+        <p>No artworks are currently reserved in your cart.</p>
+        <a class="btn btn-primary" href="{% url 'gallery:gallery_list' %}">Back to gallery</a>
+      </div>
+    {% endif %}
+
+  </div>
+</section>
+
+{% endblock %}

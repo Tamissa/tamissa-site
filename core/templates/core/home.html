@@ -1,0 +1,287 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<style>
+
+  /* ================= HERO ================= */
+
+  .home-hero {
+    padding: 100px 0 60px 0;
+    text-align: center;
+  }
+
+  .home-title {
+    font-size: 64px;
+    margin: 0;
+  }
+
+  .home-subtitle {
+    margin-top: 20px;
+    font-size: 18px;
+    color: #6f6259;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 1.7;
+  }
+
+  .enter-gallery {
+    display: inline-block;
+    margin-top: 40px;
+    padding: 16px 28px;
+    background: #2f2a26;
+    color: white;
+    border-radius: 12px;
+    text-decoration: none;
+    font-size: 16px;
+    transition: all 0.2s ease;
+  }
+
+  .enter-gallery:hover {
+    opacity: 0.9;
+    transform: translateY(-2px);
+  }
+
+  /* ================= GENERIC SECTION ================= */
+
+  .home-section {
+    padding: 70px 0;
+    text-align: center;
+  }
+
+  .section-title {
+    font-size: 36px;
+    margin-bottom: 20px;
+  }
+
+  .section-text {
+    color: #6f6259;
+    max-width: 700px;
+    margin: auto;
+    line-height: 1.8;
+  }
+
+  /* ================= FEATURED ARTWORKS ================= */
+
+  .featured-wrap {
+    padding: 20px 0 80px 0;
+  }
+
+  .featured-header {
+    text-align: center;
+    margin-bottom: 30px;
+  }
+
+  .featured-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+  }
+
+  .featured-card {
+    background: rgba(255,255,255,0.85);
+    border: 1px solid #eadfd6;
+    border-radius: 24px;
+    overflow: hidden;
+    box-shadow: 0 14px 36px rgba(90, 68, 53, 0.06);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .featured-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 20px 40px rgba(90, 68, 53, 0.10);
+  }
+
+  .featured-link {
+    display: block;
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .featured-image {
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+    display: block;
+    background: #efe8e2;
+  }
+
+  .featured-content {
+    padding: 16px;
+    text-align: left;
+  }
+
+  .featured-title {
+    margin: 0;
+    font-size: 22px;
+  }
+
+  .featured-meta {
+    margin-top: 8px;
+    font-size: 14px;
+    color: #7a6e65;
+    line-height: 1.6;
+  }
+
+  .featured-price {
+    margin-top: 12px;
+    font-size: 15px;
+    font-weight: 600;
+    color: #2f2a26;
+  }
+
+  .featured-empty {
+    text-align: center;
+    color: #7a6e65;
+    padding: 20px 0 0 0;
+  }
+
+  /* ================= RESPONSIVE ================= */
+
+  @media (max-width: 1000px) {
+    .featured-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 700px) {
+    .home-title {
+      font-size: 46px;
+    }
+
+    .featured-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+</style>
+
+
+<!-- ================= HERO ================= -->
+
+<section class="home-hero">
+
+  <div class="page-width">
+
+    <h1 class="home-title">
+      Tamissa
+    </h1>
+
+    <div class="home-subtitle">
+      Original handmade artworks exploring texture, color, and emotion.
+      Each piece is created as a unique work meant to live with its collector.
+    </div>
+
+    <a href="/gallery/" class="enter-gallery">
+      Enter Gallery
+    </a>
+
+  </div>
+
+</section>
+
+
+<!-- ================= BRAND INTRO ================= -->
+
+<section class="home-section">
+
+  <div class="page-width">
+
+    <h2 class="section-title">
+      About the studio
+    </h2>
+
+    <div class="section-text">
+      Tamissa is a small independent art studio focused on handcrafted pieces.
+      Each artwork is created as a one-of-a-kind expression using mixed media,
+      texture, carving, and layered color.
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- ================= FEATURED ARTWORKS ================= -->
+
+<section class="featured-wrap">
+
+  <div class="page-width">
+
+    <div class="featured-header">
+      <h2 class="section-title">Featured works</h2>
+      <div class="section-text">
+        A curated selection from the current collection.
+      </div>
+    </div>
+
+    {% if featured_artworks %}
+      <div class="featured-grid">
+
+        {% for art in featured_artworks %}
+          <article class="featured-card">
+
+            <a class="featured-link" href="{% url 'gallery:artwork_detail' art.slug %}">
+
+              {% if art.main_image_url %}
+                <img
+                  class="featured-image"
+                  src="{{ art.main_image_url }}"
+                  alt="{{ art.title }}"
+                >
+              {% else %}
+                <div class="featured-image"></div>
+              {% endif %}
+
+              <div class="featured-content">
+                <h3 class="featured-title">{{ art.title }}</h3>
+
+                <div class="featured-meta">
+                  {{ art.medium }} — {{ art.width_cm }} × {{ art.height_cm }} cm
+                </div>
+
+                <div class="featured-price">
+                  €{{ art.price_eur }}
+                </div>
+              </div>
+
+            </a>
+
+          </article>
+        {% endfor %}
+
+      </div>
+    {% else %}
+
+      <div class="featured-empty">
+        No featured artworks have been selected yet.
+      </div>
+
+    {% endif %}
+
+  </div>
+
+</section>
+
+
+<!-- ================= FUTURE SECTION ================= -->
+
+<section class="home-section">
+
+  <div class="page-width">
+
+    <h2 class="section-title">
+      New works coming soon
+    </h2>
+
+    <div class="section-text">
+      This section will later show new artworks, studio updates,
+      or announcements about newly released pieces.
+    </div>
+
+  </div>
+
+</section>
+
+{% endblock %}

@@ -1,0 +1,168 @@
+{% load static %}
+<!doctype html>
+<html>
+<head>
+
+<meta charset="utf-8">
+
+<title>Tamissa – Original handmade artworks</title>
+
+<!-- Google Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+/* ================= GLOBAL ================= */
+
+body{
+margin:0;
+font-family:'Inter', sans-serif;
+background:#f8f5f2;
+color:#2f2a26;
+}
+
+h1,h2,h3{
+font-family:'Playfair Display', serif;
+letter-spacing:-0.02em;
+}
+
+/* shared page width */
+
+.page-width{
+max-width:1200px;
+margin:auto;
+padding:0 20px;
+}
+
+/* ================= HEADER ================= */
+
+.site-header{
+background:white;
+border-bottom:1px solid #eee;
+}
+
+.site-header-inner{
+display:flex;
+align-items:center;
+justify-content:space-between;
+padding:26px 0;
+}
+
+/* brand block */
+
+.brand{
+display:flex;
+align-items:center;
+gap:14px;
+}
+
+.brand-logo{
+height:70px;
+}
+
+.brand-name{
+font-size:24px;
+font-weight:600;
+font-family:'Playfair Display', serif;
+letter-spacing:0.5px;
+}
+
+/* navigation */
+
+.nav{
+display:flex;
+gap:20px;
+align-items:center;
+}
+
+.nav a{
+text-decoration:none;
+color:#2f2a26;
+font-size:15px;
+font-weight:500;
+}
+
+.nav a:hover{
+opacity:0.6;
+}
+
+/* right header note */
+
+.brand-note{
+font-size:14px;
+color:#777;
+}
+
+/* ================= FOOTER ================= */
+
+.footer{
+margin-top:70px;
+padding:30px 0;
+text-align:center;
+color:#777;
+font-size:14px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<!-- ================= HEADER ================= -->
+
+<header class="site-header">
+
+<div class="page-width site-header-inner">
+
+<div class="brand">
+
+<a href="{% url 'gallery:home' %}">
+<img
+class="brand-logo"
+src="{% static 'gallery/images/Logo-removebg.png' %}"
+alt="Tamissa Gallery"
+>
+</a>
+
+<a href="{% url 'gallery:home' %}" style="text-decoration:none; color:inherit;">
+<div class="brand-name">
+Tamissa
+</div>
+</a>
+
+</div>
+
+<nav class="nav">
+<a href="{% url 'gallery:gallery_list' %}">Gallery</a>
+<a href="{% url 'gallery:contact' %}">Contact</a>
+</nav>
+
+<div class="brand-note">
+Original handmade artworks
+</div>
+
+</div>
+
+</header>
+
+<!-- ================= PAGE CONTENT ================= -->
+
+{% block content %}
+{% endblock %}
+
+<!-- ================= FOOTER ================= -->
+
+<footer class="footer">
+
+<div class="page-width">
+Tamissa – Original handmade artworks
+</div>
+
+</footer>
+
+</body>
+</html>
