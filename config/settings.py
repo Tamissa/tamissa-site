@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-o&lagpz*v1eq5uvwa&at%klxuis4j85$&dmd5bn2212jg9r@4w
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
 
 ALLOWED_HOSTS = ["tam-issa.com",
     "www.tam-issa.com",
@@ -125,13 +125,24 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
-STATIC_URL = 'static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-# Folder where logos, CSS, and other static assets are stored
+# Static files
+STATIC_URL = "/static/"
+STATIC_ROOT = BASE_DIR / "staticfiles"
+
 STATICFILES_DIRS = [
     BASE_DIR / "static",
 ]
-# MEDIA settings: where uploaded files (art images) are stored
+
+STORAGES = {
+    "default": {
+        "BACKEND": "django.core.files.storage.FileSystemStorage",
+    },
+    "staticfiles": {
+        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+    },
+}
+
+# Media files
 MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"
 
