@@ -839,29 +839,35 @@
   transition: all 0.2s ease;
 }
 
-    .contact-pills {
+.contact-pills {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 0.8rem;
+  gap: 1rem;
   flex-wrap: wrap;
   width: 100%;
-  margin-top: 2rem;
-  }
+
+  margin-top: 2.5rem;     /* more breathing from text */
+  margin-bottom: 3.5rem;  /* push away from footer */
+}
 
 .contact-pill {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+
   background: transparent;
   border: 1px solid #403528;
   color: #403528;
-  padding: 0.6rem 1.4rem;
-  min-height: 38px;
+
+  padding: 0.7rem 1.6rem;   /* slightly more balanced */
+  min-height: 42px;
+
   font-family: "DM Sans", sans-serif;
   font-size: 0.62rem;
   letter-spacing: 0.22em;
   text-transform: uppercase;
+
   border-radius: 999px;
   text-decoration: none;
   transition: all 0.3s ease;
@@ -873,6 +879,19 @@
   color: var(--ivory);
   transform: translateY(-1px);
   box-shadow: 0 6px 16px rgba(39,32,24,0.15);
+}
+
+/* 🔥 MOBILE FIX */
+@media (max-width: 600px) {
+  .contact-pills {
+    flex-direction: column;   /* stack */
+    gap: 0.8rem;
+  }
+
+  .contact-pill {
+    width: 100%;
+    max-width: 280px;         /* keeps elegance */
+  }
 }
 footer {
   background:
