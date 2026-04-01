@@ -367,23 +367,29 @@
   }
 }
 
-@media (max-width: 480px) {
+@media (max-width: 780px) {
   .hero::before,
   .hero::after {
-    width: 78vw;
-    height: 78vw;
-    max-width: 260px;
-    max-height: 260px;
-    opacity: 0.055;
+    width: 42vw !important;
+    height: 42vw !important;
+    background-size: contain !important;
+    background-repeat: no-repeat !important;
+    background-position: center !important;
+    transform: none !important;
+    top: 34% !important;
+    opacity: 0.16 !important;
   }
 
   .hero::before {
-    left: -24%;
+    left: -10vw !important;
+    right: auto !important;
   }
 
   .hero::after {
-    right: -24%;
+    right: -10vw !important;
+    left: auto !important;
   }
+}
 
   .hero-logo-wrap {
     width: min(68vw, 210px);
