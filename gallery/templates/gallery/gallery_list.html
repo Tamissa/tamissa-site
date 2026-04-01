@@ -188,38 +188,10 @@
   position: relative;
   overflow: hidden;
   background:
-    radial-gradient(circle at 50% 34%, rgba(176,122,40,0.10) 0%, rgba(176,122,40,0.05) 18%, transparent 42%),
-    radial-gradient(circle at 50% 42%, rgba(39,32,24,0.05) 0%, transparent 55%),
-    linear-gradient(180deg, #f7f3ed 0%, #f6f1e8 45%, #f8f3ec 100%);
+    radial-gradient(circle at 50% 34%, rgba(176,122,40,0.08) 0%, rgba(176,122,40,0.04) 18%, transparent 42%),
+    linear-gradient(180deg, #f3ede3 0%, #f7f3ec 50%, #efe5d6 100%);
 }
-.hero::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: 120px;
-  background: linear-gradient(to bottom, rgba(248,243,236,0), rgba(15,28,36,0.22));
-  pointer-events: none;
-}
-.hero {
-  min-height: 75vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  padding: 100px 1.5rem 2rem;
-  position: relative;
-  overflow: hidden;
-  background:
-    linear-gradient(
-      180deg,
-      #f3ede3 0%,
-      #f7f3ec 50%,
-      #efe5d6 100%
-    );
-}
+
 .hero::before,
 .hero::after {
   content: "";
@@ -237,48 +209,18 @@
   opacity: 0.08;
 }
 
-/* LEFT — tree */
 .hero::before {
   left: 1%;
   background-image: url("{% static 'gallery/images/Left_Hero.png' %}");
   background-position: left center;
 }
 
-/* RIGHT — mandala */
 .hero::after {
   right: 1%;
-  background-image: url("{% static 'gallery/images/Left_Hero.png' %}");
-  background-position: right center;
-}
-.hero::before,
-.hero::after {
-  content: "";
-  position: absolute;
-  top: 50%;
-  right: 0;
-  width: 220px;
-  height: 220px;
-  transform: translateY(-50%);
-  pointer-events: none;
-  z-index: 0;
-  background: rgba(111, 143, 139, 0.25);
-}
-
-.hero::before {
-  left: -10%;
-  background-image: url("{% static 'gallery/images/Left_Hero.png' %}");
-  background-position: left center;
-}
-
-.hero::after {
-  right: -10%;
   background-image: url("{% static 'gallery/images/Right_Hero.png' %}");
   background-position: right center;
 }
-.hero::after {
-  right: -6%;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 600 600'%3E%3Cg fill='none' stroke='%236B4A5A' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round' opacity='0.95'%3E%3Cpath d='M94 300c42-10 79-29 111-58 30-27 51-60 61-100 5 39 20 72 46 101 29 32 64 51 106 57-42 8-78 27-107 58-26 28-41 61-45 100-10-38-31-71-61-99-31-29-68-48-111-59Z'/%3E%3Cpath d='M143 300c29-8 55-22 77-43 21-20 36-44 45-73 7 28 20 52 39 73 21 22 46 37 76 43-30 5-55 20-76 43-19 20-32 44-39 73-9-29-24-53-45-73-22-21-48-35-77-43Z'/%3E%3Cpath d='M281 164c10 39 31 73 64 101 31 26 67 42 108 49-38 7-72 24-102 52-32 30-53 67-62 111'/%3E%3Cpath d='M302 225c7 22 19 41 37 58 24 22 52 36 84 43-29 6-54 19-75 40-22 21-37 47-45 77'/%3E%3Cpath d='M267 132c10 39 12 78 6 117-8 55-31 103-68 145'/%3E%3Cpath d='M314 132c-8 33-9 66-4 98 8 49 28 92 60 129'/%3E%3Cpath d='M355 160c35 11 66 29 92 56 28 29 47 63 57 103'/%3E%3Cpath d='M359 438c34-11 64-29 89-55 29-29 48-64 58-106'/%3E%3Ccircle cx='281' cy='300' r='22'/%3E%3Ccircle cx='281' cy='300' r='54' opacity='0.7'/%3E%3Ccircle cx='281' cy='300' r='94' opacity='0.5'/%3E%3C/g%3E%3C/svg%3E");
-}
+
 .hero-logo-wrap,
 .hero-name,
 .hero-sub,
@@ -286,19 +228,8 @@
   position: relative;
   z-index: 1;
 }
-.hero::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-  opacity: 0.12;
-  background:
-    radial-gradient(circle at 20% 25%, rgba(176,122,40,0.10) 0, transparent 28%),
-    radial-gradient(circle at 80% 70%, rgba(176,122,40,0.08) 0, transparent 30%);
-}
 
-    .hero-logo-wrap {
+.hero-logo-wrap {
   width: min(36vw, 240px);
   aspect-ratio: 1 / 1;
   border-radius: 50%;
@@ -316,10 +247,9 @@
   align-items: center;
   justify-content: center;
   margin-bottom: 1.2rem;
-  position: relative;
-  z-index: 1;
   overflow: hidden;
 }
+
 .hero-logo-wrap::after {
   content: "";
   position: absolute;
@@ -328,7 +258,8 @@
   border: 1px solid rgba(176,122,40,0.16);
   pointer-events: none;
 }
- .hero-logo-wrap img {
+
+.hero-logo-wrap img {
   width: 118%;
   height: 118%;
   object-fit: contain;
@@ -345,22 +276,18 @@
   line-height: 1;
 }
 
-  .hero-sub {
+.hero-sub {
   margin-top: 1rem;
   max-width: 760px;
   font-size: 0.95rem;
   line-height: 1.9;
   color: var(--text-mid);
-  position: relative;
-  z-index: 1;
 }
 
 .hero-btn {
   margin-top: 1.8rem;
   display: flex;
   justify-content: center;
-  position: relative;
-  z-index: 1;
 }
 
 .hero-btn a {
@@ -368,22 +295,18 @@
   align-items: center;
   justify-content: center;
   text-decoration: none;
-
   padding: 0.82rem 1.7rem;
   min-height: 44px;
-
   border-radius: 999px;
   border: 1px solid #403528;
   background: #403528;
   color: var(--ivory);
-
   font-family: "DM Sans", sans-serif;
   font-size: 0.68rem;
   font-weight: 400;
   letter-spacing: 0.22em;
   text-transform: uppercase;
   line-height: 1;
-
   box-shadow: 0 8px 22px rgba(39,32,24,0.16);
   transition: all 0.3s ease;
 }
@@ -394,6 +317,86 @@
   color: var(--charcoal);
   transform: translateY(-2px);
   box-shadow: 0 10px 24px rgba(176,122,40,0.2);
+}
+
+@media (max-width: 780px) {
+  .hero {
+    min-height: auto;
+    padding: 110px 1rem 2.5rem;
+  }
+
+  .hero::before,
+  .hero::after {
+    width: 72vw;
+    height: 72vw;
+    max-width: 320px;
+    max-height: 320px;
+    opacity: 0.07;
+  }
+
+  .hero::before {
+    left: -18%;
+  }
+
+  .hero::after {
+    right: -18%;
+  }
+
+  .hero-logo-wrap {
+    width: min(62vw, 230px);
+    margin-bottom: 1rem;
+  }
+
+  .hero-name {
+    font-size: clamp(2.8rem, 12vw, 4.1rem);
+    line-height: 1.02;
+  }
+
+  .hero-sub {
+    max-width: 100%;
+    font-size: 1rem;
+    line-height: 1.75;
+    padding: 0 0.25rem;
+  }
+
+  .hero-btn a {
+    width: min(100%, 360px);
+    padding: 0.95rem 1.4rem;
+    font-size: 0.72rem;
+    letter-spacing: 0.18em;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero::before,
+  .hero::after {
+    width: 78vw;
+    height: 78vw;
+    max-width: 260px;
+    max-height: 260px;
+    opacity: 0.055;
+  }
+
+  .hero::before {
+    left: -24%;
+  }
+
+  .hero::after {
+    right: -24%;
+  }
+
+  .hero-logo-wrap {
+    width: min(68vw, 210px);
+  }
+
+  .hero-name {
+    font-size: clamp(2.5rem, 12vw, 3.5rem);
+  }
+
+  .hero-sub {
+    font-size: 0.95rem;
+    line-height: 1.7;
+  }
 }
 
    .band {
