@@ -325,21 +325,12 @@
     padding: 110px 1rem 2.5rem;
   }
 
+  /* REMOVE side graphics completely on mobile */
   .hero::before,
   .hero::after {
-    width: 72vw;
-    height: 72vw;
-    max-width: 320px;
-    max-height: 320px;
-    opacity: 0.07;
-  }
-
-  .hero::before {
-    left: -18%;
-  }
-
-  .hero::after {
-    right: -18%;
+    display: none !important;
+    content: none !important;
+    background: none !important;
   }
 
   .hero-logo-wrap {
@@ -367,45 +358,7 @@
   }
 }
 
-@media (max-width: 780px) {
-  .hero::before,
-  .hero::after {
-    width: 42vw !important;
-    height: 42vw !important;
-    background-size: contain !important;
-    background-repeat: no-repeat !important;
-    background-position: center !important;
-    transform: none !important;
-    top: 34% !important;
-    opacity: 0.16 !important;
-  }
-
-  .hero::before {
-    left: -10vw !important;
-    right: auto !important;
-  }
-
-  .hero::after {
-    right: -10vw !important;
-    left: auto !important;
-  }
-}
-
-  .hero-logo-wrap {
-    width: min(68vw, 210px);
-  }
-
-  .hero-name {
-    font-size: clamp(2.5rem, 12vw, 3.5rem);
-  }
-
-  .hero-sub {
-    font-size: 0.95rem;
-    line-height: 1.7;
-  }
-}
-
-   .band {
+.band {
   background:
     radial-gradient(circle at 50% 20%, rgba(176,122,40,0.06), transparent 60%),
     linear-gradient(
@@ -416,7 +369,6 @@
       #132b33 75%,
       #0f1c24 100%
     );
-
   padding: 3.2rem 2rem;
   text-align: center;
   position: relative;
@@ -437,7 +389,7 @@
 
 .band p {
   font-family: "Cormorant", serif;
-  font-size: clamp(1.1rem, 2.4vw, 1.6rem); /* slightly bigger */
+  font-size: clamp(1.1rem, 2.4vw, 1.6rem);
   font-style: italic;
   color: rgba(248,243,236,0.92);
   letter-spacing: 0.04em;
@@ -447,7 +399,7 @@
 }
 
 .band span {
-  color: var(--gold-light); /* brighter gold for contrast */
+  color: var(--gold-light);
 }
 
     .gallery-sec {
