@@ -1346,13 +1346,14 @@ footer::before {
   </div>
 
   <div class="fbar" id="fbar">
-    <button class="fb on" data-f="all">All Products</button>
-    <button class="fb" data-f="painting">Paintings</button>
-    <button class="fb" data-f="lamp">Lamps</button>
-    <button class="fb" data-f="tray">Trays</button>
-    <button class="fb" data-f="accessory">Accessories</button>
-    <button class="fb" data-f="wall_decoration">Wall Decoration</button>
-  </div>
+  <button class="fb on" data-f="featured">Featured</button>
+  <button class="fb" data-f="all">All Works</button>
+  <button class="fb" data-f="painting">Paintings</button>
+  <button class="fb" data-f="lamp">Lamps</button>
+  <button class="fb" data-f="tray">Trays</button>
+  <button class="fb" data-f="accessory">Accessories</button>
+  <button class="fb" data-f="wall_decoration">Wall Decoration</button>
+</div>
 
   <div class="masonry" id="masonry"></div>
 </section>
@@ -1487,6 +1488,7 @@ footer::before {
       desc: "{{ art.description|default:''|escapejs }}",
       src: "{% if art.main_image_url %}{{ art.main_image_url|escapejs }}{% elif art.main_image %}{{ art.main_image.url|escapejs }}{% else %}{% static 'gallery/images/placeholder.png' %}{% endif %}",
       detail_url: "{% url 'gallery:artwork_detail' art.slug %}",
+      featured: {% if art.is_featured %}true{% else %}false{% endif %},
       acquired: {% if art.status == 'acquired' %}true{% else %}false{% endif %}
     }{% if not forloop.last %},{% endif %}
     {% endfor %}
@@ -1509,9 +1511,14 @@ footer::before {
       const el = document.getElementById("masonry");
       el.innerHTML = "";
 
-      const filtered = filter === "all"
-        ? ITEMS
-        : ITEMS.filter(p => p.cat === filter);
+      let filtered;
+      if (filter === "featured") {
+      filtered = ITEMS.filter(p => p.featured === true);
+      } else if (filter === "all") {
+      filtered = ITEMS;
+      } else {
+      filtered = ITEMS.filter(p => p.cat === filter);
+      }
 
       if (filtered.length === 0) {
         el.innerHTML = `
@@ -1577,7 +1584,7 @@ footer::before {
       if (el) io.observe(el);
     });
 
-    render("all");
+    render("featured");
   });
 </script>
 
