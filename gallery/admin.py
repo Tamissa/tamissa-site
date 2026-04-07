@@ -1,15 +1,33 @@
 from django.contrib import admin
 from django.utils.html import format_html
-from .models import Artwork
+from .models import Artwork, ArtworkImage
+
+
+class ArtworkImageInline(admin.TabularInline):
+    model = ArtworkImage
+    extra = 3
+    fields = ("image", "is_main")
+    verbose_name = "Additional image"
+    verbose_name_plural = "Additional images"
 
 
 @admin.register(Artwork)
 class ArtworkAdmin(admin.ModelAdmin):
-    list_display = ("thumbnail", "title", "artwork_type", "status", "is_featured", "is_collaboration", "created_at")
+    list_display = (
+        "thumbnail",
+        "title",
+        "artwork_type",
+        "status",
+        "is_featured",
+        "is_collaboration",
+        "created_at",
+    )
     list_filter = ("artwork_type", "status", "is_featured", "is_collaboration")
     search_fields = ("title", "description")
     prepopulated_fields = {"slug": ("title",)}
     readonly_fields = ("created_at", "updated_at", "preview_image")
+
+    inlines = [ArtworkImageInline]
 
     fieldsets = (
         ("Artwork", {
@@ -19,7 +37,7 @@ class ArtworkAdmin(admin.ModelAdmin):
             "fields": (("width_cm", "height_cm", "depth_cm"),),
             "classes": ("collapse",),
         }),
-        ("Image", {
+        ("Main Image", {
             "fields": ("main_image", "main_image_url", "preview_image"),
         }),
         ("Status", {
