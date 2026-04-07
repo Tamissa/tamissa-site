@@ -5,15 +5,15 @@ from .models import Artwork
 
 @admin.register(Artwork)
 class ArtworkAdmin(admin.ModelAdmin):
-    list_display = ("thumbnail", "title", "artwork_type", "status", "is_collaboration", "created_at")
-    list_filter = ("artwork_type", "status", "is_collaboration")
+    list_display = ("thumbnail", "title", "artwork_type", "status", "is_featured", "is_collaboration", "created_at")
+    list_filter = ("artwork_type", "status", "is_featured", "is_collaboration")
     search_fields = ("title", "description")
     prepopulated_fields = {"slug": ("title",)}
     readonly_fields = ("created_at", "updated_at", "preview_image")
 
     fieldsets = (
         ("Artwork", {
-            "fields": ("title", "slug", "artwork_type", "description", "is_collaboration")
+            "fields": ("title", "slug", "artwork_type", "description", "is_collaboration", "is_featured")
         }),
         ("Dimensions", {
             "fields": (("width_cm", "height_cm", "depth_cm"),),
