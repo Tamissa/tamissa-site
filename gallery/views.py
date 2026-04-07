@@ -16,15 +16,17 @@ def artwork_detail(request, slug):
     """
     Individual artwork detail page — purely informational, no add-to-cart.
     """
-    artwork = get_object_or_404(Artwork, slug=slug)
+    artwork = get_object_or_404(Artwork.objects.prefetch_related("images"), slug=slug)
 
-    # Related pieces: same type, exclude current
+    gallery_images = list(artwork.images.all())
+
     related = Artwork.objects.filter(
         artwork_type=artwork.artwork_type
     ).exclude(pk=artwork.pk).order_by('-created_at')[:4]
 
     return render(request, 'gallery/artwork_detail.html', {
         'artwork': artwork,
+        'gallery_images': gallery_images,
         'related': related,
     })
 
