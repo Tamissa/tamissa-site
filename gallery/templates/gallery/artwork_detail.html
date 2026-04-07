@@ -552,7 +552,7 @@
 
       <img
         id="mainArtworkImage"
-        src="{% if artwork.main_image_url %}{{ artwork.main_image_url }}{% elif artwork.main_image %}{{ artwork.main_image.url }}{% elif gallery_images %}{{ gallery_images.0.image.url }}{% else %}{% static 'gallery/images/placeholder.png' %}{% endif %}"
+        src="{% if artwork.main_image_url %}{{ artwork.main_image_url }}{% elif artwork.main_image %}{{ artwork.main_image.url }}{% elif gallery_images %}{{ gallery_images.0.display_image }}{% else %}{% static 'gallery/images/placeholder.png' %}{% endif %}"
         alt="{{ artwork.title }}"
       />
     </div>
@@ -569,8 +569,8 @@
         {% endif %}
 
         {% for extra in gallery_images %}
-          <button class="thumb-btn {% if not artwork.main_image_url and not artwork.main_image and forloop.first %}active{% endif %}" type="button" onclick="setMainImage(this, '{{ extra.image.url|escapejs }}')">
-            <img src="{{ extra.image.url }}" alt="{{ artwork.title }} additional image {{ forloop.counter }}" />
+          <button class="thumb-btn {% if not artwork.main_image_url and not artwork.main_image and forloop.first %}active{% endif %}" type="button" onclick="setMainImage(this, '{{ extra.display_image|escapejs }}')">
+            <img src="{{ extra.display_image }}" alt="{{ artwork.title }} additional image {{ forloop.counter }}" />
           </button>
         {% endfor %}
       </div>
