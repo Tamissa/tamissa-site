@@ -144,7 +144,7 @@ STORAGES = {
 
 # Media files
 MEDIA_URL = "/media/"
-MEDIA_ROOT = BASE_DIR / "media"
+MEDIA_ROOT = "/var/data/media"
 
 # ================= EMAIL SETTINGS =================
 # For development: print emails in the terminal instead of sending real emails
