@@ -32,6 +32,7 @@ class Artwork(models.Model):
 
     status           = models.CharField(max_length=20, choices=STATUS_CHOICES, default='available', db_index=True)
     is_collaboration = models.BooleanField(default=False)
+    is_featured = models.BooleanField(default=False)
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
