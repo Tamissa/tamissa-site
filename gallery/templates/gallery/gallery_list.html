@@ -1228,18 +1228,17 @@
       }
 
       if (filtered.length === 0) {
-        el.innerHTML = `
-          <div class="empty-state">
-            <img src="/static/gallery/images/in_progress.png" alt="In the making" />
-            <p class="empty-title">In the making</p>
-            <p class="empty-text">
-              New pieces are taking shape — quietly, patiently.<br/>
-              This space will soon hold something made with soul.
-            </p>
-          </div>
-        `;
-        return;
-      }
+  el.innerHTML = `
+    <div class="empty-state">
+      <p class="empty-title">Soul is gathering here.</p>
+      <p class="empty-text">
+        A new piece is taking form — slowly, lovingly, and with intention.<br/>
+        What arrives here next will be worth the wait.
+      </p>
+    </div>
+  `;
+  return;
+}
 
       filtered.forEach((p, i) => {
         const d = document.createElement("div");
