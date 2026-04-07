@@ -6,9 +6,21 @@ from .models import Artwork, ArtworkImage
 class ArtworkImageInline(admin.TabularInline):
     model = ArtworkImage
     extra = 3
-    fields = ("image", "is_main")
+    fields = ("image", "image_url", "is_main", "preview")
+    readonly_fields = ("preview",)
     verbose_name = "Additional image"
     verbose_name_plural = "Additional images"
+
+    def preview(self, obj):
+        src = obj.display_image
+        if src:
+            return format_html(
+                '<img src="{}" style="height:60px;width:60px;object-fit:cover;border-radius:4px;" />',
+                src
+            )
+        return "—"
+
+    preview.short_description = "Preview"
 
 
 @admin.register(Artwork)

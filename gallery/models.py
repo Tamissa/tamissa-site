@@ -72,8 +72,17 @@ class ArtworkImage(models.Model):
         on_delete=models.CASCADE,
         related_name="images"
     )
-    image = models.ImageField(upload_to='artworks/')
+    image = models.ImageField(upload_to='artworks/', blank=True, null=True)
+    image_url = models.URLField(max_length=500, blank=True)
     is_main = models.BooleanField(default=False)
 
     def __str__(self):
         return f"{self.artwork.title} Image"
+
+    @property
+    def display_image(self):
+        if self.image_url:
+            return self.image_url
+        if self.image:
+            return self.image.url
+        return ""
